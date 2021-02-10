@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>Accueil</h1>
+    <h1>Ajouter un livre</h1>
   </div>
 </template>
-
