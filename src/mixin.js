@@ -13,7 +13,7 @@ export default Vue.mixin({
         this.restoreToken();
     },
     methods: {
-        baseApiURL: function () {
+        usersApiURL: function () {
             return 'http://localhost:8081';
         },
         getHeaders: function () {

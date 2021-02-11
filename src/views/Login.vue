@@ -1,5 +1,6 @@
 <template>
   <div class="inner-form text-center d-flex mt-10">
+
     <h1>Se connecter</h1>
 
     <form class="form-auth">
@@ -25,6 +26,17 @@
         Se connecter
       </v-btn>
     </form>
+    <v-alert
+        v-if="error"
+        border="right"
+        colored-border
+        type="error"
+        elevation="2"
+        width="40%"
+        class="ma-auto mt-4"
+    >
+      Identifiants incorrects
+    </v-alert>
   </div>
 </template>
 
@@ -46,7 +58,7 @@ export default {
     authenticate: async function () {
       try {
         this.error = false
-        const response = await axios.post(this.baseApiURL() + '/auth', {
+        const response = await axios.post(this.usersApiURL() + '/auth', {
           login: this.login,
           password: this.password
         })
