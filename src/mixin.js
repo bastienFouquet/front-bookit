@@ -16,6 +16,9 @@ export default Vue.mixin({
         usersApiURL: function () {
             return 'http://localhost:8081';
         },
+        booksApiURL: function () {
+            return 'http://localhost:8082';
+        },
         getHeaders: function () {
             return {
                 headers: {

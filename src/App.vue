@@ -6,7 +6,6 @@
       dark
     >
       <div class="d-flex align-center justify-center ma-auto">
-        <router-link class="px-10 text-decoration-none white--text" to="/">Accueil</router-link>
         <v-icon
             large
             color="white darken-2"
@@ -14,7 +13,6 @@
           mdi-library
         </v-icon>
         <p class="text-uppercase text-h4 ps-2 ma-0">Book'it</p>
-        <router-link class="px-10 text-decoration-none white--text" to="/add">Ajouter un livre</router-link>
       </div>
 
     </v-app-bar>
@@ -44,7 +42,6 @@ export default {
 .app {
   width: 900px;
   margin: 50px auto;
-  height: 700px;
 }
 .inner-content {
   background: #D3D3D3;
@@ -52,7 +49,6 @@ export default {
   justify-content: center;
 }
 .content {
-  background: white;
   height: 100%;
 }
 </style>
