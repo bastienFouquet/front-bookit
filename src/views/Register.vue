@@ -12,8 +12,8 @@
           label="Mot de passe"
           :append-icon="showPw ? 'mdi-eye' : 'mdi-eye-off'"
           :type="showPw ? 'text' : 'password'"
-          :rules="[rules.min]"
-          hint="Au moins 8 characters"
+          :rules="[rules.min, rules.uppercase, rules.lowercase, rules.digit, rules.space]"
+          hint="Au moins 8 characters, dont une majuscule, une minuscule et un chiffre."
           @click:append="showPw = !showPw"
           required
       ></v-text-field>
@@ -22,8 +22,8 @@
           label="Confirmation du mot de passe"
           :append-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
           :type="showConfirmPassword ? 'text' : 'password'"
-          :rules="[rules.min]"
-          hint="Au moins 8 characters"
+          :rules="[rules.min, rules.uppercase, rules.lowercase, rules.digit, rules.space]"
+          hint="Au moins 8 characters, dont une majuscule, une minuscule et un chiffre."
           @click:append="showConfirmPassword = !showConfirmPassword"
           required
       ></v-text-field>
@@ -75,7 +75,7 @@ import axios from "axios";
 
 export default {
   name: 'Register',
-  data() {
+  data: function () {
     return {
       showPw: false,
       showConfirmPassword: false,
@@ -85,7 +85,11 @@ export default {
       password: null,
       confirmPassword: null,
       rules: {
-        min: v => v.length >= 8 || 'Minimum 8 caractères !'
+        min: v => v.length >= 8 || 'Minimum 8 caractères !',
+        uppercase: v => this.hasUpperCase(v) || 'Il doit y avoir au moins une majuscule.',
+        lowercase: v => this.hasLowerCase(v) || 'Il doit y avoir au moins une minuscule.',
+        digit: v=> this.hasDigit(v) || 'Il doit y avoir au moins un chiffre.',
+        space: v => this.hasNoWhiteSpace(v) || 'Il ne doit pas y avoir d\'espace'
       }
     }
   },
@@ -104,6 +108,18 @@ export default {
         console.error(e);
         this.error = true;
       }
+    },
+    hasUpperCase: function (str) {
+      return str.match(/[A-Z]/);
+    },
+    hasLowerCase: function (str) {
+      return str.match(/[a-z]/);
+    },
+    hasDigit: function (str) {
+      return str.match(/[0-9]/);
+    },
+    hasNoWhiteSpace: function (str) {
+      return !str.match(/[" "]/);
     }
   }
 }

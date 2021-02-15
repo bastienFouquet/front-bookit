@@ -51,8 +51,7 @@
 
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="blue darken-1" text @click="$emit('close')">Cancel</v-btn>
-      <v-btn color="blue darken-1" text @click="">OK</v-btn>
+      <v-btn color="blue darken-1" text @click="$emit('close')">Fermer</v-btn>
       <v-spacer></v-spacer>
     </v-card-actions>
   </v-card>
