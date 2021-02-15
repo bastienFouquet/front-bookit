@@ -63,6 +63,7 @@ export default {
           password: this.password
         })
         this.$data.token = response.data.token
+        this.$data.user = response.data.user
         setTimeout(() => {
           this.$router.push({name: 'Home'})
         }, 100)

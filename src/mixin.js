@@ -3,11 +3,13 @@ import Vue from 'vue'
 export default Vue.mixin({
     data: function () {
         return {
-            token: null
+            token: null,
+            user: null
         }
     },
     watch: {
-        token: 'setToken'
+        token: 'setToken',
+        user: 'setUser'
     },
     created: function () {
         this.restoreToken();
@@ -31,9 +33,15 @@ export default Vue.mixin({
             if (localStorage.token) {
                 this.token = localStorage.token
             }
+            if (localStorage.user) {
+                this.user = JSON.parse(localStorage.user)
+            }
         },
         setToken: function () {
             localStorage.setItem('token', this.token)
+        },
+        setUser: function () {
+            localStorage.setItem('user', JSON.stringify(this.user))
         }
     }
 })

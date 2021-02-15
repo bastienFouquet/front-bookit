@@ -3,7 +3,7 @@
     <v-card-title class="headline">Ajouter un mouvement</v-card-title>
     <v-card-text>
       Nom du livre : {{editedItem.title}}
-      <v-form>
+      <v-form v-if="$data.user.role.label === 'Admin'">
         <v-container>
           <v-row>
             <v-col
@@ -32,8 +32,8 @@
             </v-col>
           </v-row>
         </v-container>
+        <v-btn @click="addOperation" :disabled="type == null || quantity == 0" class="ma-auto">Ajouter</v-btn>
       </v-form>
-      <v-btn @click="addOperation" :disabled="type == null || quantity == 0" class="ma-auto">Ajouter</v-btn>
       <v-data-table
           :headers="headers"
           :items="operations"

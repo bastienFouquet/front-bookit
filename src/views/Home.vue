@@ -16,7 +16,7 @@
           <v-spacer></v-spacer>
           <v-dialog v-model="addDialog" max-width="500px">
             <template v-slot:activator="{ on, attrs }">
-              <v-btn
+              <v-btn v-if="$data.user.role.label === 'Admin'"
                   color="secondary"
                   v-bind="attrs"
                   v-on="on"
@@ -127,20 +127,24 @@ export default {
     },
     createBook: async function () {
       try {
-        await axios.post(this.booksApiURL() + '/books', {
+        const response = await axios.post(this.booksApiURL() + '/books', {
           title: this.editedItem.title,
           isbn: this.editedItem.isbn,
           quantity: this.editedItem.quantity,
-        },this.getHeaders());
-        await this.getBooks();
-        this.addBookState = true;
-        this.addDialog = false;
+        }, this.getHeaders());
+        if (response) {
+          await this.getBooks();
+          this.addBookState = true;
+          this.addDialog = false;
+        }
       } catch (e) {
         console.error(e);
       }
+
     },
     disconnect: function () {
       localStorage.removeItem('token');
+      localStorage.removeItem('user');
       this.$router.push('login');
     }
   },
