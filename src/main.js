@@ -8,7 +8,7 @@ Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
   const localToken = localStorage.getItem('token');
-  if ((to.name === 'Home' || to.name === 'AddBook') && !localToken) {
+  if (to.name === 'Home' && !localToken) {
     return next({name: 'Login'})
   }
   if ((to.name === 'Login' || to.name === 'Register') && localToken) {

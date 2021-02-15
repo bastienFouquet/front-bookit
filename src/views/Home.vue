@@ -24,74 +24,10 @@
                 Ajouter un livre
               </v-btn>
             </template>
-            <v-card>
-              <v-card-title>
-                <span class="headline">Ajouter un livre</span>
-              </v-card-title>
-
-              <v-card-text>
-                <v-container>
-                  <v-row>
-                    <v-col cols="12">
-                      <v-text-field
-                          v-model="editedItem.title"
-                          label="Titre du livre"
-                          required
-                          hint="Entrer le titre du livre"
-                      ></v-text-field>
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col cols="8">
-                      <v-text-field
-                          required
-                          v-model="editedItem.isbn"
-                          label="ISBN"
-                          hint="Numéro unique à 13 chiffres"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="4">
-                      <v-text-field
-                          type="number"
-                          required
-                          v-model="editedItem.quantity"
-                          label="Quantité"
-                      ></v-text-field>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-card-text>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn
-                    color="red"
-                    text
-                    @click="addDialog = false"
-                >
-                  Annuler
-                </v-btn>
-                <v-btn
-                    color="success"
-                    depressed
-                    :disabled="editedItem.isbn.length !== 13"
-                    @click="createBook"
-                >
-                  Ajouter
-                </v-btn>
-              </v-card-actions>
-            </v-card>
+            <AddBookDialog :editedItem="editedItem" v-on:createBook="createBook" v-on:close="addDialog = false"></AddBookDialog>
           </v-dialog>
           <v-dialog v-model="manageDialog" max-width="500px">
-            <v-card>
-              <v-card-title class="headline">{{editedItem.title}}</v-card-title>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="manageDialog = false">Cancel</v-btn>
-                <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
-                <v-spacer></v-spacer>
-              </v-card-actions>
-            </v-card>
+            <EditBookDialog v-on:refresh="getBooks" :editedItem="editedItem" v-on:close="manageDialog = false"></EditBookDialog>
           </v-dialog>
         </v-toolbar>
       </template>
@@ -132,7 +68,7 @@
       </v-row>
     </v-alert>
     <v-row align="center" justify="space-around" class="ma-3">
-      <v-btn>Deconnexion</v-btn>
+      <v-btn @click="disconnect">Deconnexion</v-btn>
     </v-row>
   </div>
 </template>
@@ -140,6 +76,10 @@
 <script>
 
 import axios from "axios";
+
+import AddBookDialog from "@/components/AddBookDialog";
+
+import EditBookDialog from "@/components/EditBookDialog";
 
 export default {
   name: 'Home',
@@ -169,22 +109,18 @@ export default {
       ]
     }
   },
+  components: {
+    AddBookDialog,
+    EditBookDialog
+  },
   async created () {
     await this.getBooks()
   },
   methods: {
     getBooks: async function () {
       try {
-        const response = await axios.get(this.booksApiURL() + '/books');
+        const response = await axios.get(this.booksApiURL() + '/books', this.getHeaders());
         this.books = response.data
-      } catch (e) {
-        console.error(e);
-      }
-    },
-    addOperations: async function (item) {
-      try {
-        console.log(item);
-        //const response = await axios.put(this.booksApiURL() + '/books/' + item.id);
       } catch (e) {
         console.error(e);
       }
@@ -195,15 +131,18 @@ export default {
           title: this.editedItem.title,
           isbn: this.editedItem.isbn,
           quantity: this.editedItem.quantity,
-        });
+        },this.getHeaders());
         await this.getBooks();
         this.addBookState = true;
         this.addDialog = false;
       } catch (e) {
         console.error(e);
       }
-
     },
+    disconnect: function () {
+      localStorage.removeItem('token');
+      this.$router.push('login');
+    }
   },
 }
 
