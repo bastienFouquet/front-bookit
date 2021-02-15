@@ -66,7 +66,7 @@ export default {
         this.$data.user = response.data.user
         setTimeout(() => {
           this.$router.push({name: 'Home'})
-        }, 100)
+        }, 200)
       } catch (e) {
         console.error(e);
         this.error = true;
