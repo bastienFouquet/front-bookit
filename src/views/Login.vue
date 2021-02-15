@@ -84,5 +84,7 @@ export default {
 }
 .inner-form {
   flex-direction: column;
+  background: white;
+  padding: 40px;
 }
 </style>
