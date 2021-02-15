@@ -67,8 +67,9 @@
         </v-col>
       </v-row>
     </v-alert>
-    <v-row align="center" justify="space-around" class="ma-3">
-      <v-btn @click="disconnect">Deconnexion</v-btn>
+    <v-row align="center" justify="space-around" class="ma-3 flex-column">
+      Connecté en tant que {{this.user.login}}
+      <v-btn @click="disconnect" class="my-3">Deconnexion</v-btn>
     </v-row>
   </div>
 </template>
